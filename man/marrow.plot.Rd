@@ -4,7 +4,7 @@
 \alias{marrow.plot}
 \title{marrow.plot}
 \usage{
-marrow.plot()
+marrow.plot(hf)
 }
 \value{
 a collection of plots
