@@ -12,18 +12,21 @@
 
 marrow.load <- function() {
 
-  print("Please choose the working directory which contains the hyperframe")
-  dir <- tk_choose.dir(caption = "Choose working directory")
+  dir <- tk_choose.files(caption = "Import hyperframes", multi = FALSE)
+  hf <<- readRDS(dir)
 
-  setwd(dir)
+  # print("Please choose the working directory which contains the hyperframe")
+  # dir <- tk_choose.dir(caption = "Choose working directory")
+  #
+  # setwd(dir)
 
   #Check that hyperframe file exists within chosen directory
 
-  file_path <- file.path(dir, "hf.rds")
-  if (!file.exists(file_path)) {
-    print("File 'hf.rds' not found in the selected directory.")
-  } else {
-  hf <<- readRDS("hf.rds")
-  }
+  # file_path <- file.path(dir, "hf.rds")
+  # if (!file.exists(file_path)) {
+  #   print("File 'hf.rds' not found in the selected directory.")
+  # } else {
+  # hf <<- readRDS("hf.rds")
+  # }
 
 }

@@ -1,34 +1,44 @@
 #' @title marrow.gen
-#' @description
-#' Generate a hyperframe of bone marrow representations from exported Qupath annotations and points.
+#' @description Generate a hyperframe of bone marrow representations from exported Qupath annotations and points.
 #'
-#' @return A hyperframe
-#' @export
 #' @import spatstat
 #' @import sf
 #' @import readr
 #' @import tcltk
 #' @import spatstat.geom
 #'
+#' @return A hyperframe
+#'
+#' @export
+#'
+#'
 #' @examples
 #' marrow.gen()
 marrow.gen <- function() {
 
-  #library(sf)
-  #library(spatstat)
-  #library(spatstat.geom)
-  #library(readr)
-  #library(tcltk)
+  # library(sf)
+  # library(spatstat)
+  # library(spatstat.geom)
+  # library(readr)
+  # library(tcltk)
+
+  #Remove hyperframe from global environment if it already exists.
+
+  if (exists("hf", where = .GlobalEnv)) {
+    rm("hf", pos = .GlobalEnv)
+  }
+
 
   print("Welcome to Callum's super fancy point pattern importer for analysis of ckit cells in bone marrow, remember, for this script to work you must have exported separate window, endothelial cell, adipocyte .geojson files from Qupath, AND you must have exported all the CKIT and DAPI classified cells AS POINTS from Qupath. Please wait...")
 
-  Sys.sleep(2)
+  Sys.sleep(1)
 
   print("Set working directory. Data will be read and saved here:")
 
   wd <- tk_choose.dir(caption = "Choose working directory")
 
   setwd(wd)
+
 
   repeat {
 
@@ -135,7 +145,7 @@ marrow.gen <- function() {
 
     #Change units
 
-    unitname(pp) <- "\u00B5m"
+    unitname(pp) <- "pixels"
 
     #Create cell class objects
     ckit <- pp[pp$marks == "CKIT"]
@@ -143,18 +153,28 @@ marrow.gen <- function() {
 
     print("Building hyperframe...")
 
+    #Create factor group
+
+    if(!exists("groups")) {
+      groups <- c()
+    }
+
+    groups <- c(groups, readline(prompt = "Name the sample group:"))
+
+
     #Create solist
 
-    Sample1 <- solist(W, endo, peri, pp, ckit)
+    # Sample <- solist(W, endo, peri, pp, ckit)
+
 
     #Add to hyperframe
 
-    row <- rbind(Sample1)
+    row <- rbind(solist(W, endo, peri, pp, ckit))
 
     if (!exists("hf")) {
-        hf <- as.hyperframe(row)
+        hf <- as.hyperframe(row, stringsAsFactors = TRUE)
         } else {
-        new_hf <- as.hyperframe(row)
+        new_hf <- as.hyperframe(row, stringsAsFactors = TRUE)
         hf <- rbind(hf, new_hf)
       }
 
@@ -171,8 +191,34 @@ marrow.gen <- function() {
     }
   }
 
+
   names(hf) <- c("win", "vasc", "adipo", "cells", "ckit")
-  saveRDS(hf, file = "hf.rds")
-  print("Hyperframe has been saved in the working directory as hf.rds")
+
+  #Rescale the hyperframe to micrometres
+
+  for (cn in names(hf)){
+      hf[[cn]] <- solapply(hf[[cn]], rescale, s = 2.41370987, unitname = "\u03bcm")
+    }
+
+  #Add on the group factors
+
+  groups <- hyperframe(groups, stringsAsFactors = TRUE)
+  hf$group <- cbind(groups)
+
+  nr <- nrow(hf)
+  rownames(hf) <- as.character(c(1:nr))
+
+  hf <<- hf
+
+  save <- readline(prompt = "Do you want to save your hyperframe? (y/n):")
+
+  if(save == "y"){
+
+    hf_name <- readline(prompt = "Please name your hyperframe:")
+    hf_name <- paste0(hf_name, "rds")
+    saveRDS(hf, file = hf_name)
+    print("Hyperframe has been saved in the working directory")
+
+  }
 
 }
