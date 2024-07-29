@@ -4,7 +4,7 @@
 \alias{dist.tme}
 \title{Distance function to components of the tumour microenvironment}
 \usage{
-dist.tme(hf)
+dist.tme()
 }
 \arguments{
 \item{hf}{A hyperframe}

@@ -6,9 +6,9 @@
 #'
 #' @examples dist.tme()
 
-dist.tme <- function(hf){
+dist.tme <- function(){
 
-  hf$dist_vasc <<- with(hf, distfun(vasc))
-  hf$dist_adipo <<- with(hf, distfun(adipo))
+  hf$dist_vasc <- with(hf, distfun(vasc))
+  hf$dist_adipo <- with(hf, distfun(adipo))
 
 }
