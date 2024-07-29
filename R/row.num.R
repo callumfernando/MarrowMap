@@ -4,10 +4,8 @@
 #' @export
 #'
 #' @examples row.num(hf)
-row.num <- function(hf = hf){
+row.num <- function(hf){
 
   nr <- nrow(hf)
   rownames(hf) <<- as.character(c(1:nr))
-
-  return(hf)
 }

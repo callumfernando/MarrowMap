@@ -11,7 +11,7 @@ marrow.rescale <- function(hf){
   colnames <- names(hf)[1:5]
 
   for (cn in colnames){
-    hf[[cn]] <<- solapply(hf[[cn]], rescale, s = 2.41370987, unitname = "\u03bcm")
+    hf[[cn]] <<- anylapply(hf[[cn]], rescale, s = 2.41370987, unitname = "\u03bcm")
   }
 
   return(hf)

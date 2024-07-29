@@ -1,4 +1,4 @@
-#' Split into test groups
+#' @title Split into test groups
 #' @param hf A hyperframe of point patterns with factor groups
 #' @import spatstat
 #' @return Multiple hyperframes split by group factor
@@ -14,12 +14,16 @@ marrow.split <- function(hf){
 
   return(spl)
 
-
-  for(i in 1:length(levels(hf$group))){
-
+  for(i in 1:length(spl)) {
     name <- levels(hf$group)[[i]]
+    print(paste("Assigning to global environment:", name))
     assign(name, value = spl[[i]], envir = .GlobalEnv)
-    name <<- name
+
+
+  # for(i in 1:length(levels(hf$group))){
+  #
+  #   name <- levels(hf$group)[[i]]
+  #   assign(name, value = spl[[i]], envir = .GlobalEnv)
 
   }
 

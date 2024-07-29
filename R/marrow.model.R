@@ -14,31 +14,32 @@ marrow.model <- function(hf, geyr = 15, geysat = 2, all = TRUE){
 
   if(all == TRUE){
 
-    model_full <<- mppm(ckit ~ group * dist_adipo,
+    model <<- mppm(ckit ~ x + y + group + dist_adipo + dist_vasc,
                   data = hf,
-                  interaction = Geyer(geyr, geysat),
-                  random = ~ 1 | id)
+                  interaction = Geyer(15, 2),
+                  random = ~1|id)
 
-    model_red <<- mppm(ckit ~ group + dist_adipo,
+    model_red <<- mppm(ckit ~ x + y + group + dist_vasc,
                   data = hf,
-                  interaction = Geyer(geyr, geysat),
-                  random = ~ 1 | id)
+                  interaction = Geyer(15,2))
+
+    anova(model, model_red, test = "LRT")
 
     model_bas <<- mppm(ckit ~ 1,
                       data = hf,
-                      interaction = Geyer(a,b),
+                      interaction = Geyer(geyr, geysat),
                       random = ~ 1 | id)
 
     model_inh <<- mppm(ckit ~ x * y,
                       data = hf,
-                      interaction = Geyer(a,b),
+                      interaction = Geyer(geyr, geysat),
                       random = ~ 1 | id)
 
   } else {
 
     model_bas <<- mppm(ckit ~ 1,
                       data = hf,
-                      interaction = Geyer(a,b),
+                      interaction = Geyer(geyr, geysat),
                       random = ~ 1 | id)
 
   }

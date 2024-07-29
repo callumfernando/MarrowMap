@@ -4,7 +4,7 @@
 \alias{split.plot}
 \title{Split plots of bone marrow point pattern hyperframe}
 \usage{
-\method{split}{plot}(spl)
+\method{split}{plot}()
 }
 \arguments{
 \item{spl}{A list of split hyperframes generated from marrow.split()}

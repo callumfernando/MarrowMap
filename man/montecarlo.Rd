@@ -5,16 +5,19 @@
 \title{Monte carlo test for difference in spatial covariates between test groups}
 \usage{
 montecarlo(
+  dens = dens,
   points = ckit,
   group = group,
   spatcov = dist_adipo,
   hf = hf,
-  geyr = 15,
+  geyr = 30,
   geysat = 3,
   nsim = 20
 )
 }
 \arguments{
+\item{dens}{density function column}
+
 \item{points}{Points to be analysed (default is ckit)}
 
 \item{group}{Factor group in hyperframe/name of column in hyperframe that determines sample group.}

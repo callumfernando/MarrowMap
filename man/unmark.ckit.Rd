@@ -16,5 +16,5 @@ An unmarked ckit column for hyperframe
 Unmark the ckit column
 }
 \examples{
-unmark.ckit(hf = hf)
+unmark.ckit(hf)
 }

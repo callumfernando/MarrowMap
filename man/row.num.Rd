@@ -4,7 +4,7 @@
 \alias{row.num}
 \title{Appropriate row numbers}
 \usage{
-row.num(hf = hf)
+row.num(hf)
 }
 \arguments{
 \item{hf}{A hyperframe}
